@@ -1,0 +1,41 @@
+[
+  {
+    "id": "602e8f",
+    "name": "jianfei",
+    "age": "28",
+    "sex": "male",
+    "telephone": "13705567876"
+  }
+,
+  {
+    "id": "5f548b",
+    "name": "naqin",
+    "age": "18",
+    "sex": "male",
+    "telephone": "13505735164"
+  }
+,
+  {
+    "id": "aac649",
+    "name": "fangjian",
+    "age": "27",
+    "sex": "male",
+    "telephone": "15809997872"
+  }
+,
+  {
+    "id": "b07dc5",
+    "name": "jisong",
+    "age": "23",
+    "sex": "male",
+    "telephone": "66666666666"
+  }
+,
+  {
+    "id": "5fcae6",
+    "name": "chengmu",
+    "age": "36",
+    "sex": "male",
+    "telephone": "12334997872"
+  }
+]
