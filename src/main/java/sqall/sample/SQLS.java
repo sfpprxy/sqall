@@ -1,6 +1,6 @@
-package sqall.test;
+package sqall.sample;
 
-public class Sample {
+public class SQLS {
 
     public static final String SELECT_SQL
             = "select id, name, age, telephone from student.info";

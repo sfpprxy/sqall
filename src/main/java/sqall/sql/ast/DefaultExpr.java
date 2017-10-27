@@ -38,7 +38,7 @@ public class DefaultExpr implements Expr { // inner class implement value instea
     }
 
     public Expr getLeft() {
-        return null;
+        return left;
     }
 
     public Expr setLeft(Expr left) {
@@ -61,7 +61,7 @@ public class DefaultExpr implements Expr { // inner class implement value instea
     }
 
     public Expr getRight() {
-        return null;
+        return right;
     }
 
     public Expr setRight(Expr right) {

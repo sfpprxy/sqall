@@ -3,7 +3,7 @@ package sqall;
 import sqall.executor.elastic.SQElasticsearch;
 import sqall.executor.SQall;
 
-import static sqall.test.Sample.*;
+import static sqall.sample.SQLS.*;
 
 public class SQallQuickStart {
 

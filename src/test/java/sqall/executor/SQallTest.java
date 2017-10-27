@@ -3,7 +3,7 @@ package sqall.executor;
 import org.junit.Test;
 import sqall.executor.elastic.SQElasticsearch;
 
-import static org.junit.Assert.*;
+import static sqall.sample.SQLS.*;
 
 public class SQallTest {
 
@@ -18,12 +18,12 @@ public class SQallTest {
     }
 
     private void query(String sql) {
-        String ip = "10.40.132.31";
+        String ip = "localhost";
 
         SQall client = new SQElasticsearch();
 
         client.connect(ip);
-        client.query(sql)
+        client.query(SELECT_WHERE)
                 .get()
                 .asTable()
                 .prettyPrint();

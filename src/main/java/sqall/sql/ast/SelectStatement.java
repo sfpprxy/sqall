@@ -10,6 +10,7 @@ import static sqall.util.U.list;
 public class SelectStatement implements Statement {
 
     private List<String> selectList = list();
+    public boolean allColumn = false;
 
     private TableSource from;
 

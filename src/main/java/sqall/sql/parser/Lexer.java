@@ -1,6 +1,6 @@
 package sqall.sql.parser;
 
-import static sqall.test.Sample.SELECT_SQL_ESID;
+import static sqall.sample.SQLS.SELECT_SQL_ESID;
 import static sqall.util.U.or;
 
 public class Lexer {
@@ -65,6 +65,9 @@ public class Lexer {
                 case ')':
                     scanChar(cur);
                     return new Token(TokenType.RPAREN);
+                case '*':
+                    scanChar(cur);
+                    return new Token(TokenType.STAR);
                 case '\'':
                     String str = scanString();
                     return new Token(TokenType.STRING, str);

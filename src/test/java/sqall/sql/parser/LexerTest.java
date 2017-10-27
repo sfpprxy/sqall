@@ -3,8 +3,7 @@ package sqall.sql.parser;
 import org.junit.Test;
 
 import static sqall.sql.parser.TokenType.EOF;
-import static sqall.test.Sample.INSERT_SQL;
-import static sqall.test.Sample.SELECT_WHERE;
+import static sqall.sample.SQLS.SELECT_WHERE;
 
 public class LexerTest {
 

@@ -1,14 +1,19 @@
 package sqall.sql.parser;
 
+import sqall.console.ErrCode;
 import sqall.sql.ast.InsertStatement;
 import sqall.sql.ast.SelectStatement;
 import sqall.sql.ast.Statement;
+import sqall.util.U;
 
 public class Parser {
 
     private final Lexer lexer;
 
     public Parser(String text) {
+        if (U.match(text, "")) {
+            throw new RuntimeException(ErrCode.EMPTY_INPUT);
+        }
         this.lexer = new Lexer(text);
     }
 
@@ -22,7 +27,7 @@ public class Parser {
             case DELETE:
                 parseDelete();
         }
-        return null;
+        throw new RuntimeException(ErrCode.INVALID_INPUT);
     }
 
     private SelectStatement parseSelect() {

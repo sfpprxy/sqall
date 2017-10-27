@@ -4,7 +4,7 @@ import org.junit.Test;
 import sqall.executor.elastic.SQElasticsearch;
 import sqall.result.Result;
 
-import static sqall.test.Sample.*;
+import static sqall.sample.SQLS.*;
 
 public class ElasticsearchExecutorTest {
 

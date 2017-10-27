@@ -15,9 +15,7 @@ import sqall.sql.ast.ElasticsearchTableSource;
 import sqall.sql.ast.DefaultExpr;
 import sqall.sql.ast.SelectStatement;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static sqall.util.U.list;
@@ -33,46 +31,62 @@ public class ESSelectExecutor extends ESAbstractExecutor {
 
     @Override
     public ActionRequestBuilder buildRequest() {
+        BoolQueryBuilder bqb = QueryBuilders.boolQuery();
+        String[] selects;
+        if (sst.allColumn) {
+            selects = null;
+        } else {
+            selects = sst.getSelectList().toArray(new String[0]);
+        }
         ElasticsearchTableSource from = (ElasticsearchTableSource) sst.getFrom();
-        String[] selects = sst.getSelectList().toArray(new String[0]);
+        List<List<DefaultExpr>> where = sst.getWhere();
+        BoolQueryBuilder orq = QueryBuilders.boolQuery();
+        where.forEach(or -> {
+            BoolQueryBuilder andq = QueryBuilders.boolQuery();
+            or.forEach(and -> andq.must(QueryBuilders.matchPhraseQuery(and.getLeft().getValue().value(), and.getRight().getValue().objValue())));
+            orq.should(andq);
+        });
 
-//        DefaultExpr defaultExpr = sst.getWhere();
-//        String key = defaultExpr.getLeft().getValue().value();
-//        Object value = defaultExpr.getRight().getValue().objValue();
-//
-//        BoolQueryBuilder bqb = QueryBuilders.boolQuery();
-//        bqb.must(QueryBuilders.termQuery(key, value))
-//                .should(QueryBuilders.termQuery("name", "qwe"));
-
-
-        return buildSearchRequest(
+        SearchRequestBuilder searchRequestBuilder = buildSearchRequest(
                 from.getIndex(),
                 from.getType(),
                 selects,
-                null,
+                orq,
                 0,
                 1000 // by default
         );
+//        System.out.println(searchRequestBuilder);
+        return searchRequestBuilder;
     }
 
     private SearchRequestBuilder buildSearchRequest(
             String index, String type, String[] include, QueryBuilder qb, int from, int limit) {
-        return client.prepareSearch(index)
+        SearchRequestBuilder srb = client.prepareSearch(index)
                 .setTypes(type)
-                .setFetchSource(include, null)
                 .setQuery(qb)
                 .setFrom(from)
                 .setSize(limit);
+        if (include != null) {
+            srb.setFetchSource(include, null);
+        }
+        return srb;
     }
 
     @Override
     public Result getResult(ActionResponse response) {
         SearchHit[] hits = ((SearchResponse) response).getHits().getHits();
         List<Map<String, Object>> result = Arrays.stream(hits)
-                .map(SearchHit::getSource)
+                .map(searchHitFields -> searchHitFields.getSource())
                 .filter(hit -> !hit.isEmpty())
                 .collect(Collectors.toList());
-        List<String> selectList = sst.getSelectList();
+        List<String> selectList;
+        if (sst.allColumn) {
+            Set<String> columns = new HashSet<>();
+            result.forEach(e -> columns.addAll(e.keySet()));
+            selectList = new ArrayList<>(columns);
+        } else {
+            selectList = sst.getSelectList();
+        }
         return new SelectResult(result, selectList);
     }
 

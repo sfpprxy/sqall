@@ -35,6 +35,10 @@ public class SelectParser {
             if (meet(FROM)) {
                 break;
             }
+            if (meet(STAR)) {
+                ss.allColumn = true;
+                break;
+            }
             if (meet(IDENTIFIER)) {
                 ss.addSelect(token());
             } else if (meet(COMMA)) {
