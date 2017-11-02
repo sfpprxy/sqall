@@ -122,9 +122,9 @@ public class SelectParser {
         if (meet(IDENTIFIER)) {
             expr.setLeft(token());
             next();
-            if (meetAny(EQ, GT, LT, GTEQ, LTEQ)) {
+            if (meetAny(EQ, NOTEQ, GT, LT, GTEQ, LTEQ)) {
                 expr.setOperator(token());
-                 next();
+                next();
                 if (meetAny(NUMBER, STRING, IDENTIFIER)) {
                     return (DefaultExpr) expr.setRight(token());
                 }

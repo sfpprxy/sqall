@@ -59,6 +59,33 @@ public class Lexer {
                 case '=':
                     scanChar(cur);
                     return new Token(TokenType.EQ);
+                case '>':
+                    scanChar(cur);
+                    cur = text.charAt(pos);
+                    if (cur == '=') {
+                        scanChar(cur);
+                        return new Token(TokenType.GTEQ);
+                    } else {
+                        return new Token(TokenType.EQ);
+                    }
+                case '<':
+                    scanChar(cur);
+                    cur = text.charAt(pos);
+                    if (cur == '=') {
+                        scanChar(cur);
+                        return new Token(TokenType.LTEQ);
+                    } else {
+                        return new Token(TokenType.EQ);
+                    }
+                case '!':
+                    scanChar(cur);
+                    cur = text.charAt(pos);
+                    if (cur == '=') {
+                        scanChar(cur);
+                        return new Token(TokenType.NOTEQ);
+                    } else {
+                        return new Token(TokenType.EQ);
+                    }
                 case '(':
                     scanChar(cur);
                     return new Token(TokenType.LPAREN);

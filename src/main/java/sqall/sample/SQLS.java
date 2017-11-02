@@ -9,7 +9,7 @@ public class SQLS {
             = "select id, name, age, telephone from student.info where _id = 5";
 
     public static final String SELECT_WHERE
-            = "select id, name, age from student.info where age = 36";
+            = "select id, name, age from student.info where age != 36";
 
     public static final String SELECT_WHERE_1
             = "select id, name, age from student.info " +
